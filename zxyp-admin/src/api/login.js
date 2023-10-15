@@ -11,19 +11,28 @@
  */
 import request from '@/utils/request'
 
+const baseUrl = '/admin/system/index'
+
 // 登录接口
 export const Login = data => {
   return request({
-    url: '/admin/system/index/login',
+    url: `${baseUrl}/login`,
     method: 'post',
     data,
+  })
+}
+
+export const GetValidateCode = ()=>{
+  return request({
+    url: `${baseUrl}/generateValidateCode`,
+    method: 'get'
   })
 }
 
 // 获取登录用户信息
 export const GetUserinfo = () => {
   return request({
-    url: '/api/userinfo',
+    url: `${baseUrl}/userinfo`,
     method: 'get',
   })
 }
