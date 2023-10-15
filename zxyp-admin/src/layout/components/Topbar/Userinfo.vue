@@ -48,11 +48,11 @@
   <el-dropdown trigger="hover">
     <div class="userinfo">
       <template v-if="!userinfo">
-        <i class="el-icon-user" />
+        <i class="el-icon-user"/>
         admin
       </template>
       <template v-else>
-        <img class="avatar" :src="userinfo.avatar" />
+        <img class="avatar" :src="userinfo.avatar"/>
         {{ userinfo.name }}
       </template>
     </div>
@@ -60,7 +60,7 @@
       <el-dropdown-menu>
         <el-dropdown-item>{{ $t('topbar.center') }}</el-dropdown-item>
         <el-dropdown-item>{{ $t('topbar.password') }}</el-dropdown-item>
-        <lock-modal />
+        <lock-modal/>
         <el-dropdown-item @click="logout">
           {{ $t('topbar.logout') }}
         </el-dropdown-item>
@@ -68,12 +68,14 @@
     </template>
   </el-dropdown>
 </template>
+
 <script>
-import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
-import { useUserinfo } from '@/components/Avatar/hooks/useUserinfo'
+import {useRouter} from 'vue-router'
+import {useUserinfo} from '@/components/Avatar/hooks/useUserinfo'
 import LockModal from './LockModal.vue'
-import { useApp } from '@/pinia/modules/app'
+import {useApp} from '@/pinia/modules/app'
+import {defineComponent, getCurrentInstance} from 'vue'
+import {Logout} from '@/api/login'
 
 export default defineComponent({
   components: {
@@ -81,16 +83,21 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
-
-    const { userinfo } = useUserinfo()
-
+    const {userinfo} = useUserinfo()
+    const {proxy: ctx} = getCurrentInstance() // 可以把ctx当成vue2中的this
     // 退出
-    const logout = () => {
-      // 清除token
-      useApp().clearToken()
-      router.push('/login')
-    }
+    const logout = async () => {
+      const {code, data, message} = await Logout();
+      if (code == 200) {
+        // 清除token
+        useApp().clearToken()
+        router.push('/login')
+        ctx.$message.warning(data)
+      } else {
+        ctx.$message.error(message)
+      }
 
+    }
     return {
       userinfo,
       logout,
@@ -106,13 +113,16 @@ export default defineComponent({
   cursor: pointer;
   display: flex;
   align-items: center;
+
   &:hover {
     background: #f5f5f5;
   }
+
   .el-icon-user {
     font-size: 20px;
     margin-right: 8px;
   }
+
   .avatar {
     margin-right: 8px;
     width: 32px;

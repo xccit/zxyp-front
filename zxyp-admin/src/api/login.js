@@ -36,3 +36,11 @@ export const GetUserinfo = () => {
     method: 'get',
   })
 }
+
+//用户登出
+export const Logout = () => {
+  return request({
+    url: `${baseUrl}/logout`,
+    method: 'get'
+  })
+}
