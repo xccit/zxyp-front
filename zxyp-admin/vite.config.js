@@ -77,11 +77,12 @@ export default env => {
       open: true,
       proxy: {
         '/api': {
-          target: 'http://localhost:8081/', // 后端接口的域名
+          target: 'http://localhost:8081', // 后端接口的域名
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),
         },
       },
+      hmr: false
     },
     esbuild: false,
     build: {

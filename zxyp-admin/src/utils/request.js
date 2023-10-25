@@ -64,6 +64,7 @@ service.interceptors.response.use(
     const res = response.data
     if (res.code == 208) {
       const redirect = encodeURIComponent(window.location.href)  // 当前地址栏的url
+      ElMessage.error("登录已过期,请重新登录")
       router.push(`/login?redirect=${redirect}`)
       return Promise.reject(new Error(res.message || 'Error'))
     }

@@ -144,7 +144,7 @@ export default defineComponent({
           if (valid) {
             state.loading = true
             const { code, data, message } = await Login(state.model)
-            if (+code === 200) {
+            if (code === 200) {
               ctx.$message.success({
                 message: ctx.$t('login.loginsuccess'),
                 duration: 1000,
@@ -163,6 +163,7 @@ export default defineComponent({
               useApp().initToken(data)
             } else {
               ctx.$message.error(message)
+              state.loading = false
             }
             state.loading = false
           }
