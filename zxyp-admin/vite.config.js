@@ -82,7 +82,7 @@ export default env => {
           rewrite: path => path.replace(/^\/api/, ''),
         },
       },
-      hmr: false
+      hmr: true,
     },
     esbuild: false,
     build: {

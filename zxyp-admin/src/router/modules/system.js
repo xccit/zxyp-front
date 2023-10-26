@@ -1,9 +1,9 @@
 // 导入组件
-const swagger = () => import('@/views/system/swagger.vue')
+const swagger = () => import('@/views/system/Swagger.vue')
 const Layout = () => import('@/layout/index.vue')
-const sysRole = () => import('@/views/system/sysRole.vue')
-const sysUser = () => import('@/views/system/sysUser.vue')
-const sysMenu = () => import('@/views/system/sysMenu.vue')
+const sysRole = () => import('@/views/system/SysRole.vue')
+const sysUser = () => import('@/views/system/SysUser.vue')
+const sysMenu = () => import('@/views/system/SysMenu.vue')
 
 // 导出该组件
 export default([

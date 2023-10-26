@@ -18,11 +18,11 @@
  *                                //.-~~~-~_--~- |-------~~~~~~~~
  *                                       //.-~~~--\
  *                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
+ *
  *                               神兽保佑            永无BUG
- * 
- * @Descripttion: 
- * @version: 
+ *
+ * @Descripttion:
+ * @version:
  * @Date: 2021-04-20 11:06:21
  * @LastEditors: huzhushan@126.com
  * @LastEditTime: 2021-04-21 12:46:41
@@ -34,8 +34,8 @@
 
 <template>
   <div class="brand">
-    <img class="logo" src="~@/assets/logo.svg" @click="goHome" />
-    <div class="title">Vue3 Element Admin</div>
+    <img class="logo" src="~@/assets/logo.png" @click="goHome" />
+    <div class="title">甄选优品管理端</div>
   </div>
 </template>
 <script>
