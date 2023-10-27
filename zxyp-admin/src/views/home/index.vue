@@ -24,7 +24,7 @@
           甄选优品是一个B2C模式的电商平台,前端基于Vue3-element-admin进行开发,后端基于SpringBoot构建工程
         </el-text>
         <hr>
-        <el-text type="info">项目模拟企业级进行开发并在主键完善当中...</el-text>
+        <el-text type="info">项目模拟企业级进行开发并在逐渐完善当中...</el-text>
       </div>
     </el-card>
     <el-card class="box-card" style="margin-left: 30px">

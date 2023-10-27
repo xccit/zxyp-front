@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
-const baseUrl = '/admin/system/role'
-// 分页查询角色数据
+const baseUrl = '/admin/system/user'
+// 分页查询用户数据
 export const list = (current, pageSize, queryDto) => {
     return request({
         url: `${baseUrl}/${current}/${pageSize}`,
@@ -12,7 +12,7 @@ export const list = (current, pageSize, queryDto) => {
 
 export const save = (sysRole) => {
     return request({
-        url: `${baseUrl}`,
+        url: `${baseUrl}/save`,
         method: 'POST',
         data: sysRole
     })
