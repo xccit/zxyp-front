@@ -10,26 +10,25 @@ export const list = (current, pageSize, queryDto) => {
     })
 }
 
-export const save = (sysRole) => {
-    return request({
-        url: `${baseUrl}/save`,
-        method: 'POST',
-        data: sysRole
-    })
-}
-
-export const remove = (roleIds) => {
+export const save = (sysUser) => {
     return request({
         url: `${baseUrl}`,
-        method: 'DELETE',
-        data: roleIds
+        method: 'POST',
+        data: sysUser
     })
 }
 
-export const update = (sysRole) => {
+export const remove = (userIds) => {
+    return request({
+        url: `${baseUrl}/${userIds}`,
+        method: 'DELETE',
+    })
+}
+
+export const update = (sysUser) => {
     return request({
         url: `${baseUrl}`,
         method: 'PUT',
-        data: sysRole
+        data: sysUser
     })
 }

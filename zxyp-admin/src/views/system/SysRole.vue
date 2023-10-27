@@ -88,7 +88,6 @@ const ids = ref([])
 const removeConfirm = async (id) => {
   ids.value = []
   ids.value.push(id)
-  console.log(ids.value)
   await ElMessageBox.confirm("此操作将永久删除记录,是否继续?", "警告", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",

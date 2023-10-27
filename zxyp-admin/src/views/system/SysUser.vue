@@ -1,4 +1,51 @@
 <template>
+  <!-- 弹窗 -->
+  <el-dialog v-model="dialogVisible" :title="sysUser.id ? '修改用户' : '添加用户' " width="40%">
+    <el-form label-width="120px">
+      <el-form-item label="用户名:">
+        <el-input v-model="sysUser.userName"/>
+      </el-form-item>
+      <el-form-item v-if="!sysUser.id" label="密码">
+        <el-input type="password" show-password v-model="sysUser.password"/>
+      </el-form-item>
+      <el-form-item label="姓名:">
+        <el-input v-model="sysUser.name"/>
+      </el-form-item>
+      <el-form-item label="手机:">
+        <el-input v-model="sysUser.phone"/>
+      </el-form-item>
+      <el-form-item label="状态:">
+        <el-select v-model="sysUser.status" class="m-2" :placeholder="sysUser.value === 0 ? '停用' : '正常'"
+                   size="large">
+          <el-option
+              v-for="item in statusSelect"
+              :key="item.value"
+              :label="item.tag"
+              :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="头像:">
+        <el-upload
+            class="avatar-uploader"
+            action="http://localhost:8081/admin/system/upload"
+            :show-file-list="false"
+        >
+          <img v-if="sysUser.avatar" :src="sysUser.avatar" class="avatar"/>
+          <el-icon v-else class="avatar-uploader-icon">
+            <Plus/>
+          </el-icon>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="描述:">
+        <el-input v-model="sysUser.description"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="sysUser.id ? updateUser() : saveUser()">提交</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
   <!---搜索表单-->
   <div class="search-div">
     <el-form label-width="70px" size="default">
@@ -38,7 +85,7 @@
 
   <!--添加按钮-->
   <div class="tools-div">
-    <el-button type="success" size="default">添 加</el-button>
+    <el-button type="success" size="default" @click="showAdd">添 加</el-button>
   </div>
 
   <!---数据表格-->
@@ -56,14 +103,14 @@
       </el-tag>
     </el-table-column>
     <el-table-column prop="createTime" label="创建时间"/>
-    <el-table-column label="操作" align="center" width="280">
-      <el-button type="primary" size="small">
+    <el-table-column label="操作" align="center" width="280" #default="scope">
+      <el-button type="primary" size="small" @click="showUpdate(scope.row)">
         修改
       </el-button>
-      <el-button type="danger" size="small">
+      <el-button type="danger" size="small" @click="removeConfirm(scope.row.id)">
         删除
       </el-button>
-      <el-button type="warning" size="small">
+      <el-button type="info" size="small">
         分配角色
       </el-button>
     </el-table-column>
@@ -72,7 +119,7 @@
   <el-pagination
       v-model:current-page="pageInfo.current"
       v-model:page-size="pageInfo.pageSize"
-      :page-sizes="[10, 20, 50, 100]"
+      :page-sizes="[5, 10, 20, 50]"
       @size-change="fetchData"
       @current-change="fetchData"
       layout="total, sizes, prev, pager, next"
@@ -83,8 +130,12 @@
 
 <script setup>
 import {ref, onMounted} from 'vue'
-import {list} from '@/api/system/user'
+import {list, save, update, remove} from '@/api/system/user'
+import {ElMessageBox, ElMessage} from "element-plus"
 
+
+//弹窗控制
+let dialogVisible = ref(false)
 // 表格数据模型
 const userList = ref([]);
 
@@ -104,11 +155,87 @@ let searchForm = ref({
 
 let queryDto = ref(searchForm)
 
-//添加数据模型
-let sysUser = ref({})
+//添加/修改数据模型
+let userForm = {
+  "id": '',
+  "userName": "",
+  "password": "",
+  "name": "",
+  "phone": "",
+  "avatar": "",
+  "description": ""
+}
+let sysUser = ref(userForm)
+let statusSelect = [
+  {tag: '正常', value: 1},
+  {tag: '停用', value: 0}
+]
 
+//添加事件
+const showAdd = () => {
+  sysUser.value = {}
+  console.log(sysUser.value)
+  dialogVisible.value = true
+}
+
+const saveUser = async () => {
+  const {code, message, data} = await save(sysUser.value)
+  if (code === 200) {
+    ElMessage.success('添加成功')
+    dialogVisible.value = false
+    await fetchData()
+  } else {
+    ElMessage.success('添加失败')
+    dialogVisible.value = false
+    await fetchData()
+  }
+}
+
+//修改事件
+const showUpdate = (row) => {
+  sysUser.value = {...row}
+  console.log(sysUser.value)
+  dialogVisible.value = true
+}
+
+const updateUser = async () => {
+  const {code, message, data} = await update(sysUser.value)
+  if (code === 200) {
+    ElMessage.success('修改成功')
+    dialogVisible.value = false
+    await fetchData()
+  } else {
+    ElMessage.success('修改失败')
+    dialogVisible.value = false
+    await fetchData()
+  }
+}
+
+//删除模型
+let userIds = ref([])
+//删除事件
+const removeConfirm = async (id) => {
+  userIds.value = []
+  userIds.value.push(id)
+  await ElMessageBox.confirm("此操作将永久删除记录,是否继续?", "警告", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(async ()=>{
+    const {code, message, data} = await remove(userIds.value)
+    if (code === 200) {
+      ElMessage.success("删除成功")
+      await fetchData()
+    } else {
+      ElMessage.error("删除失败")
+      await fetchData()
+    }
+  }).catch(async ()=>{
+    ElMessage.info("取消删除")
+  })
+}
 //重置搜索数据
-let resetData = async ()=>{
+let resetData = async () => {
   searchForm.value.keyword = ''
   timesPicker.value = []
   await fetchData()
