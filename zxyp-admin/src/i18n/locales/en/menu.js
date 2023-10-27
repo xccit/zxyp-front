@@ -1,6 +1,11 @@
 export default {
-  homepage: 'Homepage',
-  dashboard: 'Dashboard',
+  homepage: 'ProjectInfo',
+  dashboard: 'ProjectInfo',
+  system:'System MSI',
+  sysRole:'Role MSI',
+  sysUser:'User MSI',
+  sysMenu:'Menu MSI',
+  swagger:'API Test',
   test: 'Test page',
   testList: 'List',
   testAdd: 'Add',

@@ -12,7 +12,7 @@ export default([
         component: Layout,
         name: 'system',
         meta: {
-            title: '系统管理',
+            title: 'menu.system',
         },
         icon: 'Location',
         children: [
@@ -21,7 +21,7 @@ export default([
                 name: 'sysRole',
                 component: sysRole,
                 meta: {
-                    title: '角色管理',
+                    title: 'menu.sysRole',
                 },
                 icon:"Service",
                 hidden: false
@@ -31,7 +31,7 @@ export default([
                 name: 'sysUser',
                 component: sysUser,
                 meta: {
-                    title: '用户管理',
+                    title: 'menu.sysUser',
                 },
                 icon:'User',
                 hidden: false
@@ -41,7 +41,7 @@ export default([
                 name: 'sysMenu',
                 component: sysMenu,
                 meta: {
-                    title: '菜单管理',
+                    title: 'menu.sysMenu',
                 },
                 icon:'Menu',
                 hidden: false
@@ -51,7 +51,7 @@ export default([
                 name: 'Swagger',
                 component: swagger,
                 meta: {
-                    title: '接口测试',
+                    title: 'menu.swagger',
                 },
                 icon:'Document',
                 hidden: false

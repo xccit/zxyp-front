@@ -1,6 +1,11 @@
 export default {
-  homepage: '首页',
-  dashboard: '工作台',
+  homepage: '项目介绍',
+  dashboard: '项目介绍',
+  system:'系统管理',
+  sysRole:'角色管理',
+  sysUser:'用户管理',
+  sysMenu:'菜单管理',
+  swagger:'接口测试',
   test: '测试页面',
   testList: '列表',
   testAdd: '添加',
