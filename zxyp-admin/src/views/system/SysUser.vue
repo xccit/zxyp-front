@@ -30,6 +30,8 @@
             class="avatar-uploader"
             action="http://localhost:8081/admin/system/upload"
             :show-file-list="false"
+            :headers="headers"
+            :on-success="handleAvatarSuccess"
         >
           <img v-if="sysUser.avatar" :src="sysUser.avatar" class="avatar"/>
           <el-icon v-else class="avatar-uploader-icon">
@@ -132,7 +134,16 @@
 import {ref, onMounted} from 'vue'
 import {list, save, update, remove} from '@/api/system/user'
 import {ElMessageBox, ElMessage} from "element-plus"
+import {useApp} from "@/pinia/modules/app"
 
+//文件上传模型+回调
+const headers = {
+  token: useApp().authorization.token     // 从pinia中获取token，在进行文件上传的时候将token设置到请求头中
+}
+// 图像上传成功以后的事件处理函数
+const handleAvatarSuccess = (response, uploadFile) => {
+  sysUser.value.avatar = response.data
+}
 
 //弹窗控制
 let dialogVisible = ref(false)

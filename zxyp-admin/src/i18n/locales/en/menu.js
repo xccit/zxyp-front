@@ -7,6 +7,7 @@ export default {
   sysMenu:'Menu MSI',
   swagger:'API Test',
   test: 'Test page',
+  minio:'Image MSI',
   testList: 'List',
   testAdd: 'Add',
   testEdit: 'Edit',

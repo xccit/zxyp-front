@@ -6,6 +6,7 @@ export default {
   sysUser:'用户管理',
   sysMenu:'菜单管理',
   swagger:'接口测试',
+  minio:'图片资源',
   test: '测试页面',
   testList: '列表',
   testAdd: '添加',

@@ -1,4 +1,6 @@
 // 导入组件
+import minio from "@/views/system/Minio.vue"
+
 const swagger = () => import('@/views/system/Swagger.vue')
 const Layout = () => import('@/layout/index.vue')
 const sysRole = () => import('@/views/system/SysRole.vue')
@@ -55,7 +57,17 @@ export default([
                 },
                 icon:'Document',
                 hidden: false
-            }
+            },
+/*            {
+                path: 'minio',
+                name: 'Minio',
+                component: minio,
+                meta: {
+                    title: 'menu.minio',
+                },
+                icon:'Document',
+                hidden: false
+            }*/
         ]
     }
 ])

@@ -32,6 +32,10 @@
           后端使用了许多开源的微服务框架及组件,诸如SpringBoot,SpringCloud,SpringCloud Alibaba,MINIO文件存储,RabbitMQ消息队列,Redis缓存中间件等
         </el-text>
         <hr>
+        <el-text type="info" size="large">
+          安全方面,git仓库及IDEA都接入了MurPhySec(墨菲安全),实时监测后端依赖及代码漏洞,在这里对墨菲安全致以崇高的敬意
+        </el-text>
+        <hr>
         <el-text type="info">项目模拟企业级开发并在逐渐完善当中,因作者正在上学,更新较慢,会尽快开发完毕并加入诸如代码生成、AI编码等新功能</el-text>
       </div>
     </el-card>
