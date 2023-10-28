@@ -39,7 +39,7 @@ export default([
                 hidden: false
             },
             {
-                path: '/menu',
+                path: '/sysMenu',
                 name: 'sysMenu',
                 component: sysMenu,
                 meta: {
@@ -49,7 +49,7 @@ export default([
                 hidden: false
             },
             {
-                path: 'swagger',
+                path: '/swagger',
                 name: 'Swagger',
                 component: swagger,
                 meta: {
