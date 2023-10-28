@@ -32,3 +32,12 @@ export const update = (sysUser) => {
         data: sysUser
     })
 }
+
+
+export const assignRole = (assignRoleDto) => {
+    return request({
+        url: `${baseUrl}/assign`,
+        method: 'POST',
+        data: assignRoleDto
+    })
+}

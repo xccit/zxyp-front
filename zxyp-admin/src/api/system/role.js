@@ -33,3 +33,10 @@ export const update = (sysRole) => {
         data: sysRole
     })
 }
+
+export const listAll = (userId) => {
+    return request({
+        url: `${baseUrl}/${userId}`,
+        method: 'GET',
+    })
+}

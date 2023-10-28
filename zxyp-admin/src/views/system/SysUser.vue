@@ -1,5 +1,5 @@
 <template>
-  <!-- 弹窗 -->
+  <!-- 添加/修改弹窗 -->
   <el-dialog v-model="dialogVisible" :title="sysUser.id ? '修改用户' : '添加用户' " width="40%">
     <el-form label-width="120px">
       <el-form-item label="用户名:">
@@ -45,6 +45,27 @@
       <el-form-item>
         <el-button type="primary" @click="sysUser.id ? updateUser() : saveUser()">提交</el-button>
         <el-button @click="dialogVisible = false">取消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+  <!--分配角色弹窗-->
+  <el-dialog v-model="dialogRoleVisible" title="分配角色" width="40%">
+    <el-form label-width="80px">
+      <el-form-item label="用户名">
+        <el-input disabled :value="sysUser.userName"></el-input>
+      </el-form-item>
+
+      <el-form-item label="角色列表">
+        <el-checkbox-group v-model="userRoleIds">
+          <el-checkbox v-for="role in allRoles" :key="role.id" :label="role.id">
+            {{ role.roleName }}
+          </el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" @click="doAssign">提交</el-button>
+        <el-button @click="dialogRoleVisible = false">取消</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -112,7 +133,7 @@
       <el-button type="danger" size="small" @click="removeConfirm(scope.row.id)">
         删除
       </el-button>
-      <el-button type="info" size="small">
+      <el-button type="info" size="small" @click="showAssignRole(scope.row)">
         分配角色
       </el-button>
     </el-table-column>
@@ -132,10 +153,39 @@
 
 <script setup>
 import {ref, onMounted} from 'vue'
-import {list, save, update, remove} from '@/api/system/user'
+import {list, save, update, remove, assignRole} from '@/api/system/user'
+import {listAll} from '@/api/system/role'
 import {ElMessageBox, ElMessage} from "element-plus"
 import {useApp} from "@/pinia/modules/app"
 
+//角色分配模型+事件
+const userRoleIds = ref([])
+const allRoles = ref([])
+const dialogRoleVisible = ref(false)
+const showAssignRole = async row => {
+  sysUser.value = {...row}
+  const {code, message, data} = await listAll(row.id)
+  allRoles.value = data.allRolesList
+  userRoleIds.value = data.sysUserRoles
+  dialogRoleVisible.value = true
+}
+
+const doAssign = async () => {
+  let assignRoleDto = {
+    userId: sysUser.value.id,
+    roleIdList: userRoleIds.value
+  }
+  const {code, message, data} = await assignRole(assignRoleDto)
+  if (code === 200){
+    ElMessage.success("操作成功")
+    dialogRoleVisible.value = false
+    userRoleIds.value = []
+    await fetchData()
+  }else{
+    ElMessage.error("操作失败")
+    userRoleIds.value = []
+  }
+}
 //文件上传模型+回调
 const headers = {
   token: useApp().authorization.token     // 从pinia中获取token，在进行文件上传的时候将token设置到请求头中
@@ -185,7 +235,6 @@ let statusSelect = [
 //添加事件
 const showAdd = () => {
   sysUser.value = {}
-  console.log(sysUser.value)
   dialogVisible.value = true
 }
 
@@ -205,7 +254,6 @@ const saveUser = async () => {
 //修改事件
 const showUpdate = (row) => {
   sysUser.value = {...row}
-  console.log(sysUser.value)
   dialogVisible.value = true
 }
 
@@ -232,7 +280,7 @@ const removeConfirm = async (id) => {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning"
-  }).then(async ()=>{
+  }).then(async () => {
     const {code, message, data} = await remove(userIds.value)
     if (code === 200) {
       ElMessage.success("删除成功")
@@ -241,7 +289,7 @@ const removeConfirm = async (id) => {
       ElMessage.error("删除失败")
       await fetchData()
     }
-  }).catch(async ()=>{
+  }).catch(async () => {
     ElMessage.info("取消删除")
   })
 }
