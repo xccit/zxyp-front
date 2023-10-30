@@ -58,16 +58,16 @@ export default([
                 icon:'Document',
                 hidden: false
             },
-/*            {
-                path: 'minio',
-                name: 'Minio',
+            {
+                path: '/minIO',
+                name: 'minIO',
                 component: minio,
                 meta: {
                     title: 'menu.minio',
                 },
                 icon:'Document',
                 hidden: false
-            }*/
+            }
         ]
     }
 ])

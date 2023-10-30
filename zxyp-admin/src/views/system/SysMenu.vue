@@ -33,15 +33,16 @@
       border
       default-expand-all
   >
-    <el-table-column prop="title" label="菜单标题" />
-    <el-table-column prop="component" label="路由名称" />
-    <el-table-column prop="sortValue" label="排序" />
-    <el-table-column prop="status" label="状态" #default="scope">
-      {{ scope.row.status == 1 ? '正常' : '停用' }}
+    <el-table-column prop="title" label="菜单标题" align="center" />
+    <el-table-column prop="component" label="路由名称" align="center" />
+    <el-table-column prop="sortValue" width="80" label="排序" align="center" />
+    <el-table-column prop="status" label="状态" width="120" align="center"  #default="scope">
+      <el-tag :type="scope.row.status == 1 ? 'success' : 'error' ">
+        {{ scope.row.status == 1 ? '正常' : '未开发/禁用' }}
+      </el-tag>
     </el-table-column>
-    <el-table-column prop="createTime" label="创建时间" />
-
-    <el-table-column label="操作" align="center" width="280" #default="scope" >
+    <el-table-column prop="createTime" label="创建时间" align="center" />
+    <el-table-column label="操作" align="center" width="280" #default="scope">
       <el-button type="success" size="small" @click="addShow(scope.row)">
         添加下级节点
       </el-button>
@@ -128,9 +129,13 @@ const updateData = async () => {
 
 // 新增
 const saveData = async () => {
-  await save(sysMenu.value)
+  const {code,message} = await save(sysMenu.value)
   dialogVisible.value = false
-  ElMessage.success('操作成功')
+  if (code === 200){
+    ElMessage.success('操作成功')
+  }else{
+    ElMessage.error(message)
+  }
   await fetchData()
 }
 
