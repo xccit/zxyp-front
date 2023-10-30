@@ -1,8 +1,24 @@
 <template>
   <div class="tools-div">
     <el-button type="success" size="small" @click="exportCategory">导出</el-button>
-    <el-button type="primary" size="small">导入</el-button>
+    <el-button type="primary" size="small" @click="importCategory">导入</el-button>
   </div>
+
+  <!--文件上传弹窗-->
+  <el-dialog v-model="dialogImportVisible" title="导入" width="30%">
+    <el-form label-width="120px">
+      <el-form-item label="分类Excel文件:">
+        <el-upload
+            class="upload-demo"
+            action="http://localhost:8081/admin/product/category/import"
+            :on-success="onUploadSuccess"
+            :headers="headers"
+        >
+          <el-button type="primary">导入</el-button>
+        </el-upload>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 
   <!---懒加载的树形表格-->
   <el-table
@@ -23,15 +39,22 @@
         {{ scope.row.status == 1 ? '正常' : '停用' }}
       </el-tag>
     </el-table-column>
+    <el-table-column prop="orderNum" align="center" label="排序"/>
     <el-table-column prop="createTime" align="center" label="创建时间"/>
     <el-table-column prop="updateTime" align="center" label="更新时间"/>
+    <el-table-column prop="status" label="操作" align="center" #default="scope">
+      <el-button type="warning">编辑</el-button>
+      <el-button type="danger">删除</el-button>
+    </el-table-column>
   </el-table>
 
 </template>
 
 <script setup>
 import {ref, onMounted} from 'vue';
-import {exportData, listCategoryByParentID} from "@/api/product/category";
+import {exportData, importData, listCategoryByParentID} from "@/api/product/category";
+import {ElMessage} from "element-plus";
+import {useApp} from "@/pinia/modules/app";
 
 // 定义list属性模型
 const list = ref([
@@ -59,6 +82,23 @@ const exportCategory = () => {
     // 模拟点击下载链接
     link.click();
   })
+}
+
+//导入
+const dialogImportVisible = ref(false)
+const headers = {
+  token: useApp().authorization.token     // 从pinia中获取token，在进行文件上传的时候将token设置到请求头中
+}
+const importCategory = () => {
+  dialogImportVisible.value = true
+}
+
+// 上传文件成功以后要执行方法
+const onUploadSuccess = async (response, file) => {
+  ElMessage.success('操作成功')
+  dialogImportVisible.value = false
+  const { data } = await listCategoryByParentID(0)
+  list.value = data ;
 }
 
 // 加载数据的方法

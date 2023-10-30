@@ -18,3 +18,11 @@ export const exportData = () => {
         responseType: 'blob'
     })
 }
+
+//导入方法
+export const importData = (id) => {
+    return request({
+        url: `${baseUrl}/import`,
+        method: 'POST'
+    })
+}
