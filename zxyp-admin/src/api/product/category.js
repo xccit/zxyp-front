@@ -9,3 +9,12 @@ export const listCategoryByParentID = parentId => {
         method: 'GET'
     })
 }
+
+// 导出方法
+export const exportData = () => {
+    return request({
+        url: `${baseUrl}/export`,
+        method: 'GET',
+        responseType: 'blob'
+    })
+}
