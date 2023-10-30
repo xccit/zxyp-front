@@ -34,3 +34,11 @@ export const remove = (id) => {
         method: 'DELETE',
     })
 }
+
+// 查询指定角色所对应的菜单id
+export const listByRoleID = (roleId) => {
+    return request({
+        url: "/admin/system/roleMenu/" + roleId,
+        method: 'GET'
+    })
+}

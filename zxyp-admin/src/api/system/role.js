@@ -10,6 +10,7 @@ export const list = (current, pageSize, queryDto) => {
     })
 }
 
+//添加角色
 export const save = (sysRole) => {
     return request({
         url: `${baseUrl}`,
@@ -18,6 +19,7 @@ export const save = (sysRole) => {
     })
 }
 
+//删除角色
 export const remove = (roleIds) => {
     return request({
         url: `${baseUrl}`,
@@ -26,6 +28,7 @@ export const remove = (roleIds) => {
     })
 }
 
+//更新角色
 export const update = (sysRole) => {
     return request({
         url: `${baseUrl}`,
@@ -34,9 +37,19 @@ export const update = (sysRole) => {
     })
 }
 
+//根据用户ID查询拥有的角色列表
 export const listAll = (userId) => {
     return request({
         url: `${baseUrl}/${userId}`,
         method: 'GET',
+    })
+}
+
+// 根据角色分配菜单请求方法
+export const assign = (assignMenuDto) => {
+    return request({
+        url: `${baseUrl}/assign`,
+        method: 'POST',
+        data: assignMenuDto
     })
 }
