@@ -1,20 +1,13 @@
 import request from '@/utils/request'
 
-const baseUrl = '/admin/product/brand'
+const baseUrl = '/admin/product/categoryBrand'
 
 // 分页列表
-export const listBrand = (current,pageSize) => {
+export const listCategoryBrand = (current,pageSize,queryDto) => {
     return request({
         url: `${baseUrl}/${current}/${pageSize}`,
-        method: 'GET'
-    })
-}
-
-// 列表
-export const brandLists = () => {
-    return request({
-        url: `${baseUrl}`,
-        method: 'GET'
+        method: 'GET',
+        params: queryDto
     })
 }
 
