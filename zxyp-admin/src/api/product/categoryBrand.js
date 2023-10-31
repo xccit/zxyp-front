@@ -12,16 +12,16 @@ export const listCategoryBrand = (current,pageSize,queryDto) => {
 }
 
 // 新增
-export const saveBrand = (brand) => {
+export const saveCategoryBrand = (categoryBrand) => {
     return request({
         url: `${baseUrl}`,
         method: 'POST',
-        data: brand
+        data: categoryBrand
     })
 }
 
 //删除
-export const removeBrand = (ids) => {
+export const removeCategoryBrand = (ids) => {
     return request({
         url: `${baseUrl}/${ids}`,
         method: 'DELETE'
@@ -29,11 +29,11 @@ export const removeBrand = (ids) => {
 }
 
 //修改
-export const updateBrand = (brand) => {
+export const updateCategoryBrand = (categoryBrand) => {
     return request({
         url: `${baseUrl}`,
         method: 'PUT',
-        data: brand
+        data: categoryBrand
     })
 }
 

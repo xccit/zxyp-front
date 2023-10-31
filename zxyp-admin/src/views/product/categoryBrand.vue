@@ -40,8 +40,38 @@
   </div>
 
   <div class="tools-div">
-    <el-button type="success" size="default">添 加</el-button>
+    <el-button type="success" size="default" @click="addShow">添 加</el-button>
   </div>
+  <!--弹窗-->
+  <el-dialog v-model="dialogVisible" :title="categoryBrand.id == null ? '添加数据' : '修改数据'" width="30%">
+    <el-form label-width="120px">
+      <el-form-item label="品牌:">
+        <el-select
+            class="m-2"
+            placeholder="选择品牌"
+            size="default"
+            v-model="categoryBrand.brandId"
+        >
+          <el-option
+              v-for="item in brandList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="分类:">
+        <el-cascader
+            :props="categoryProps"
+            v-model="categoryBrand.categoryId"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="saveOrUpdate">提交</el-button>
+        <el-button @click="dialogVisible = false;ElMessage.warning('取消操作')">取消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 
   <div>
     <el-table :data="list" style="width: 100%">
@@ -55,11 +85,11 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"/>
       <el-table-column prop="updateTime" label="更新时间"/>
-      <el-table-column label="操作" align="center" width="200">
-        <el-button type="primary" size="default">
+      <el-table-column label="操作" align="center" width="200" #default="scope">
+        <el-button type="primary" size="default" @click="editShow(scope.row)">
           修改
         </el-button>
-        <el-button type="danger" size="default">
+        <el-button type="danger" size="default" @click="remove(scope.row.id)">
           删除
         </el-button>
       </el-table-column>
@@ -80,8 +110,14 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import {brandLists} from "@/api/product/brand";
-import {listCategoryBrand} from "@/api/product/categoryBrand";
+import {
+  listCategoryBrand,
+  saveCategoryBrand,
+  updateCategoryBrand,
+  removeCategoryBrand
+} from "@/api/product/categoryBrand";
 import {listCategoryByParentID} from "@/api/product/category";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 // ================数据模型定义  start ===============================================
 const props = {
@@ -98,6 +134,85 @@ const props = {
     resolve(data)  // 返回数据
   }
 };
+
+//删除
+let ids = ref([])
+const remove = async (id) => {
+  ids.value = []
+  ids.value.push(id)
+  ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+      .then(async () => {
+        const {code, message} = await removeCategoryBrand(ids.value)
+        if (code === 200) {
+          ElMessage.success(message)
+          await fetchData()
+        }else{
+          ElMessage.error('操作失败')
+          return
+        }
+      })
+      .catch(() => {
+        ElMessage.warning('取消删除')
+      })
+}
+
+//修改
+const editShow = row => {
+  categoryBrand.value = row
+  dialogVisible.value = true
+}
+const updateData = async () => {
+  await updateCategoryBrand(categoryBrand.value)
+  dialogVisible.value = false
+  ElMessage.success('操作成功')
+  await fetchData()
+}
+
+
+//添加
+const dialogVisible = ref(false)
+const defaultForm = {       //页面表单数据
+  id: '',
+  brandId: '',
+  categoryId: '',
+}
+const categoryBrand = ref(defaultForm)
+const addShow = () => {
+  categoryBrand.value = {}
+  dialogVisible.value = true
+}
+
+//提交保存与修改
+const saveOrUpdate = () => {
+  if (categoryBrand.value.brandId == '') {
+    ElMessage.info('品牌信息必须选择')
+    return
+  }
+  //categoryId为数组：[1,2,3]
+  if (categoryBrand.value.categoryId.length != 3) {
+    ElMessage.info('分类信息必须选择')
+    return
+  }
+  //系统只需要三级分类id
+  categoryBrand.value.categoryId = categoryBrand.value.categoryId[2]
+  if (!categoryBrand.value.id) {
+    saveData()
+  } else {
+    updateData()
+  }
+}
+
+// 新增
+const saveData = async () => {
+  await saveCategoryBrand(categoryBrand.value)
+  dialogVisible.value = false
+  ElMessage.success('操作成功')
+  await fetchData()
+}
 
 const categoryProps = ref(props)
 
