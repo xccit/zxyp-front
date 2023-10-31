@@ -20,9 +20,27 @@ export const exportData = () => {
 }
 
 //导入方法
-export const importData = (id) => {
+export const importData = () => {
     return request({
         url: `${baseUrl}/import`,
         method: 'POST'
     })
 }
+
+//删除分类
+export const removeCategory = (id) => {
+    return request({
+        url: `${baseUrl}/${id}`,
+        method: 'DELETE'
+    })
+}
+
+//修改分类
+export const updateCategory = (categoryDto) => {
+    return request({
+        url: `${baseUrl}`,
+        method: 'PUT',
+        data: categoryDto
+    })
+}
+

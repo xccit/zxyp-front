@@ -10,6 +10,7 @@ export default {
   product:'商品管理',
   category:'分类管理',
   brand:'品牌管理',
+  categoryBrand:"品牌分类",
   test: '测试页面',
   testList: '列表',
   testAdd: '添加',

@@ -4,6 +4,7 @@
 import Layout from "@/layout/index.vue";
 import category from "@/views/product/category.vue";
 import brand from "@/views/product/brand.vue";
+import categoryBrand from "@/views/product/categoryBrand.vue";
 
 export default ([
     {
@@ -13,7 +14,7 @@ export default ([
         meta: {
             title: 'menu.product',
         },
-        icon: 'Location',
+        icon: 'Promotion',
         children: [
             {
                 path: '/category',
@@ -33,6 +34,16 @@ export default ([
                     title: 'menu.brand',
                 },
                 icon: "Histogram",
+                hidden: false
+            },
+            {
+                path: '/categoryBrand',
+                name: 'categoryBrand',
+                component: categoryBrand,
+                meta: {
+                    title: 'menu.categoryBrand',
+                },
+                icon: "PieChart",
                 hidden: false
             }
         ]
