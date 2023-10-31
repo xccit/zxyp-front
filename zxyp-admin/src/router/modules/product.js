@@ -6,6 +6,7 @@ import category from "@/views/product/category.vue";
 import brand from "@/views/product/brand.vue";
 import categoryBrand from "@/views/product/categoryBrand.vue";
 import productSpec from "@/views/product/productSpec.vue";
+import product from "@/views/product/product.vue";
 
 export default ([
     {
@@ -56,7 +57,17 @@ export default ([
                 },
                 icon: "CoffeeCup",
                 hidden: false
-            }
+            },
+            {
+                path: '/product',
+                name: 'product',
+                component: product,
+                meta: {
+                    title: 'menu.product',
+                },
+                icon: "Shop",
+                hidden: false
+            },
         ]
     }
 ])
