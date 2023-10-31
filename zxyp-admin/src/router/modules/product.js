@@ -5,6 +5,7 @@ import Layout from "@/layout/index.vue";
 import category from "@/views/product/category.vue";
 import brand from "@/views/product/brand.vue";
 import categoryBrand from "@/views/product/categoryBrand.vue";
+import productSpec from "@/views/product/productSpec.vue";
 
 export default ([
     {
@@ -44,6 +45,16 @@ export default ([
                     title: 'menu.categoryBrand',
                 },
                 icon: "PieChart",
+                hidden: false
+            },
+            {
+                path: '/productSpec',
+                name: 'productSpec',
+                component: productSpec,
+                meta: {
+                    title: 'menu.productSpec',
+                },
+                icon: "CoffeeCup",
                 hidden: false
             }
         ]

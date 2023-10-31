@@ -135,11 +135,14 @@ const props = {
   }
 };
 
-//删除
+/**
+ * 删除功能,由于单删跟批量删除接口使用的是同一个,需要传入id集合
+ * @type {Ref<UnwrapRef<*[]>>}
+ */
 let ids = ref([])
 const remove = async (id) => {
-  ids.value = []
-  ids.value.push(id)
+  ids.value = [] //清空
+  ids.value.push(id) //添加
   ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

@@ -12,6 +12,7 @@ export default {
   category: 'Category MSI',
   brand: 'Brand MSI',
   categoryBrand:"Brand&Category",
+  productSpec:"Product Spec",
   testList: 'List',
   testAdd: 'Add',
   testEdit: 'Edit',
