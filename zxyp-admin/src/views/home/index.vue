@@ -25,7 +25,7 @@
         </el-text>
         <hr>
         <el-text type="info" size="large">
-          用户端基于Vue3+ElementPlus进行开发,并且使用了许多第三方开源组件,例如Pinia
+          用户端基于Vue3+ElementPlus进行开发,并且使用了许多第三方开源组件,例如Pinia,Echarts
         </el-text>
         <hr>
         <el-text type="info" size="large">
@@ -34,6 +34,14 @@
         <hr>
         <el-text type="info" size="large">
           安全方面,git仓库及IDEA都接入了MurPhySec(墨菲安全),实时监测后端依赖及代码漏洞,在这里对墨菲安全致以崇高的敬意
+        </el-text>
+        <hr>
+        <el-text type="info" size="large">
+          除此之外,项目中使用了XSSFilter,处理每一个请求中对XSS跨站脚本攻击的防御,并且所有SQL语句都使用预处理,防止SQL注入,项目配置中
+        </el-text>
+        <hr>
+        <el-text type="info" size="large">
+          对数据源的明文也做了加密处理,这是每一个项目上线之前必须测试的一环,防止反编译获取数据源账户
         </el-text>
         <hr>
         <el-text type="info">项目模拟企业级开发并在逐渐完善当中,因作者正在上学,更新较慢,会尽快开发完毕并加入诸如代码生成、AI编码等新功能</el-text>

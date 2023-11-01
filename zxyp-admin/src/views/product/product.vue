@@ -104,8 +104,8 @@
         审批
       </el-button>
       <el-button
-          v-if="scope.row.status == 0 || scope.row.status == -1
-          || scope.row.status == 0 "
+          v-if="(scope.row.status == 0 || scope.row.status == -1)
+          && scope.row.auditStatus == 1"
           type="success"
           size="default"
           @click="updateStatus(scope.row.id, 1)"

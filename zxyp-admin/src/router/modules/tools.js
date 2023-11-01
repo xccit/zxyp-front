@@ -15,7 +15,7 @@ export default ([
         children: [
             {
                 path: '/swagger',
-                name: 'Swagger',
+                name: 'swagger',
                 component: swagger,
                 meta: {
                     title: 'menu.swagger',

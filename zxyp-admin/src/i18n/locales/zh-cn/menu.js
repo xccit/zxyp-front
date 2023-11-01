@@ -1,3 +1,5 @@
+import orderStatistics from "@/views/order/orderStatistics.vue";
+
 export default {
   homepage: '项目介绍',
   dashboard: '项目介绍',
@@ -8,6 +10,9 @@ export default {
   swagger:'接口测试',
   minio:'资源管理',
   druid:'数据源监控',
+  order:'订单管理',
+  orderInfo:'订单信息',
+  orderStatistics:'订单统计',
   product:'商品管理',
   tools:'系统工具',
   category:'分类管理',
