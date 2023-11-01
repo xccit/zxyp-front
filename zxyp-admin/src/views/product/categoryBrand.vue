@@ -72,14 +72,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="saveOrUpdate">提交</el-button>
-        <el-button
-          @click="
-            dialogVisible = false
-            ElMessage.warning('取消操作')
-          "
-        >
-          取消
-        </el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
