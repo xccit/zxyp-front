@@ -1,7 +1,7 @@
 // 导入组件
-import minio from "@/views/system/Minio.vue"
+import minio from "@/views/tools/Minio.vue"
 
-const swagger = () => import('@/views/system/Swagger.vue')
+const swagger = () => import('@/views/tools/Swagger.vue')
 const Layout = () => import('@/layout/index.vue')
 const sysRole = () => import('@/views/system/SysRole.vue')
 const sysUser = () => import('@/views/system/SysUser.vue')
@@ -46,26 +46,6 @@ export default([
                     title: 'menu.sysMenu',
                 },
                 icon:'Menu',
-                hidden: false
-            },
-            {
-                path: '/swagger',
-                name: 'Swagger',
-                component: swagger,
-                meta: {
-                    title: 'menu.swagger',
-                },
-                icon:'Document',
-                hidden: false
-            },
-            {
-                path: '/minIO',
-                name: 'minIO',
-                component: minio,
-                meta: {
-                    title: 'menu.minio',
-                },
-                icon:'Document',
                 hidden: false
             }
         ]

@@ -2,6 +2,14 @@ import request from '@/utils/request'
 
 const baseUrl = '/admin/product/categoryBrand'
 
+// 根据分类的id获取品牌数据
+export const getBrandByCategoryId = categoryId => {
+    return request({
+        url: `${baseUrl}/listBrand/${categoryId}`,
+        method: 'GET',
+    })
+}
+
 // 分页列表
 export const listCategoryBrand = (current,pageSize,queryDto) => {
     return request({

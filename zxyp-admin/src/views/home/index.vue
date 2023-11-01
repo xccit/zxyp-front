@@ -71,7 +71,7 @@ import * as echarts from 'echarts'
 import {onMounted, onActivated} from 'vue'
 
 let backend_technology = ["SpringBoot", "SpringCloud", "SpringCloud Alibaba", "MyBatis", "Redis", "MySQL", "elastic search", "RabbitMQ", "Nacos","MINIO","EasyExcel","HttpClient","jasypt"]
-let front_technology = ["Node", "Vite" , "Vue3", "ElementPlus", "Vue-Router", "Pinia", "Webpack", "Axios", "i18n"]
+let front_technology = ["Node", "Vite" , "Vue3", "ElementPlus", "Vue-Router", "Pinia", "Webpack", "Axios", "i18n","ECharts"]
 
 
 </script>

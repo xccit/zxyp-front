@@ -2,6 +2,14 @@ import request from '@/utils/request'
 
 const baseUrl = '/admin/product/productSpec'
 
+// 查询所有的产品规格数据
+export const listAllSpec = () => {
+    return request({
+        url: `${baseUrl}`,
+        method: 'GET',
+    })
+}
+
 // 分页列表
 export const listProductSpecPage = (current,pageSize) => {
     return request({

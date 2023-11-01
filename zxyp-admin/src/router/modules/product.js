@@ -16,7 +16,7 @@ export default ([
         meta: {
             title: 'menu.product',
         },
-        icon: 'Promotion',
+        icon: 'Goods',
         children: [
             {
                 path: '/category',

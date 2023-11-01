@@ -32,15 +32,15 @@ import error from './modules/error'
 import login from './modules/login'
 import lock from './modules/lock'
 import home from './modules/home'
-import test from './modules/test'
 import system from './modules/system'
 import product from "@/router/modules/product";
+import tools from "@/router/modules/tools";
 
 /* 菜单栏的路由 */
 // 固定菜单
 export const fixedRoutes = [...home]
 // 动态菜单
-export const asyncRoutes = [...system,...product]
+export const asyncRoutes = [...system,...tools,...product]
 
 const router = createRouter({
   history: createWebHashHistory(),
