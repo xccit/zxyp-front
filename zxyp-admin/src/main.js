@@ -44,7 +44,6 @@ import ElementPlus from 'element-plus'
 import './assets/style/element-variables.scss'
 import 'element-plus/dist/index.css'
 
-
 // 国际化
 import i18n from '@/i18n'
 
@@ -55,12 +54,10 @@ Object.entries(ICONS).forEach(([key, component]) => {
   app.component(key, component)
 })
 
-// 引入路由
-import router from './router'
-
 // 引入pinia
 import pinia from './pinia'
-
+// 引入路由
+import router from './router'
 // 权限控制
 import './permission'
 

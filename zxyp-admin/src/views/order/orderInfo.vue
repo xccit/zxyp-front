@@ -1,11 +1,7 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-  订单信息
+  OrderInfo
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

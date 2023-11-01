@@ -15,13 +15,13 @@
  *                      (  | |  | |  )
  *                     __\ | |  | | /__
  *                    (vvv(VVV)(VVV)vvv)
- * 
+ *
  *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
+ *
  *                神兽保佑            永无BUG
- * 
- * @Descripttion: 
- * @version: 
+ *
+ * @Descripttion:
+ * @version:
  * @Date: 2021-04-20 11:06:21
  * @LastEditors: huzhushan@126.com
  * @LastEditTime: 2022-09-26 12:14:10
@@ -37,8 +37,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineAsyncComponent, defineComponent } from 'vue'
 import { ElConfigProvider } from 'element-plus'
+import orderStatistics from '@/views/order/orderStatistics.vue'
 import localeZH from 'element-plus/lib/locale/lang/zh-cn'
 import localeEN from 'element-plus/lib/locale/lang/en'
 import useLang from '@/i18n/useLang'

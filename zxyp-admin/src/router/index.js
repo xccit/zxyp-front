@@ -25,7 +25,11 @@
  * @Donate: https://huzhushan.gitee.io/vue3-element-admin/donate/
  */
 
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router'
 
 import redirect from './modules/redirect'
 import error from './modules/error'
@@ -33,15 +37,15 @@ import login from './modules/login'
 import lock from './modules/lock'
 import home from './modules/home'
 import system from './modules/system'
-import product from "@/router/modules/product";
-import tools from "@/router/modules/tools";
-import order from "@/router/modules/order";
+import product from '@/router/modules/product'
+import tools from '@/router/modules/tools'
+import order from '@/router/modules/order'
 
 /* 菜单栏的路由 */
 // 固定菜单
 export const fixedRoutes = [...home]
 // 动态菜单
-export const asyncRoutes = [...system,...tools,...product,...order]
+export const asyncRoutes = [...system, ...order, ...tools, ...product]
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -54,7 +58,7 @@ const router = createRouter({
     ...login,
     ...lock,
     ...fixedRoutes,
-    ...error
+    ...error,
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

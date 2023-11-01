@@ -4,24 +4,24 @@
   </div>
 
   <el-table :data="list" style="width: 100%">
-    <el-table-column prop="specName" label="规格名称"/>
+    <el-table-column prop="specName" label="规格名称" />
     <el-table-column label="规格值" #default="scope">
       <div
-          v-for="(item1, index1) in scope.row.specValue"
-          :key="index1"
-          style="padding: 5px; margin: 0;width: 100%;"
+        v-for="(item1, index1) in scope.row.specValue"
+        :key="index1"
+        style="padding: 5px; margin: 0;width: 100%;"
       >
         {{ item1.key }}:
         <span
-            v-for="(item2, index2) in item1.valueList"
-            :key="index2"
-            class="div-atrr"
+          v-for="(item2, index2) in item1.valueList"
+          :key="index2"
+          class="div-atrr"
         >
-            {{ item2 }}
-            </span>
+          {{ item2 }}
+        </span>
       </div>
     </el-table-column>
-    <el-table-column prop="createTime" label="创建时间"/>
+    <el-table-column prop="createTime" label="创建时间" />
     <el-table-column label="操作" align="center" width="200" #default="scope">
       <el-button type="primary" size="small" @click="editShow(scope.row)">
         修改
@@ -33,42 +33,48 @@
   </el-table>
 
   <el-pagination
-      v-model:current-page="pageParams.page"
-      v-model:page-size="pageParams.limit"
-      :page-sizes="[10, 20, 50, 100]"
-      layout="total, sizes, prev, pager, next"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+    v-model:current-page="pageParams.page"
+    v-model:page-size="pageParams.limit"
+    :page-sizes="[10, 20, 50, 100]"
+    layout="total, sizes, prev, pager, next"
+    :total="total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
   />
-  <el-dialog v-model="dialogVisible" title="添加或修改" width="40%">
+  <el-dialog v-model="dialogVisible" :title="dialogTitle" width="40%">
     <el-form label-width="120px">
       <el-form-item label="规格名称">
-        <el-input v-model="productSpec.specName"/>
+        <el-input v-model="productSpec.specName" />
       </el-form-item>
       <el-form-item>
         <el-button size="default" type="success" @click="addSpec">
           添加新规格
         </el-button>
       </el-form-item>
-      <el-form-item label="" v-for="(item , index) in productSpec.specValue" :key="index">
+      <el-form-item
+        label=""
+        v-for="(item, index) in productSpec.specValue"
+        :key="index"
+      >
         <el-row>
           <el-col :span="10">
             <el-input
-                v-model="item.key"
-                placeholder="规格"
-                style="width: 90%;"
+              v-model="item.key"
+              placeholder="规格"
+              style="width: 90%;"
             />
           </el-col>
           <el-col :span="10">
             <el-input
-                v-model="item.valueList"
-                placeholder="规格值(如:白色,红色)"
-                style="width: 90%;"
+              v-model="item.valueList"
+              placeholder="规格值(如:白色,红色)"
+              style="width: 90%;"
             />
           </el-col>
           <el-col :span="4">
-            <el-button size="default" type="danger" @click="delSpec(index)">删除</el-button>
+            <el-button size="default" type="danger" @click="delSpec(index)">
+              删除
+            </el-button>
           </el-col>
         </el-row>
       </el-form-item>
@@ -81,9 +87,16 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue'
-import {listProductSpecPage, saveProductSpec, updateProductSpec, removeProductSpec} from '@/api/product/productSpec'
-import {ElMessage, ElMessageBox} from 'element-plus'
+import { ref, onMounted } from 'vue'
+import {
+  listProductSpecPage,
+  saveProductSpec,
+  updateProductSpec,
+  removeProductSpec,
+} from '@/api/product/productSpec'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+let dialogTitle = ref('添加规格信息')
 
 // 表格数据模型
 const list = ref([])
@@ -105,28 +118,13 @@ const dialogVisible = ref(false)
 const defaultForm = {
   id: '',
   specName: '',
-  specValue: [
-    {
-      "key": "颜色",
-      "valueList": [
-        "白色",
-        "红色",
-        "黑色"
-      ]
-    },
-    {
-      "key": "内存",
-      "valueList": [
-        "8G",
-        "18G"
-      ]
-    }
-  ]
+  specValue: [],
 }
 const productSpec = ref(defaultForm)
 
 //进入修改
 const editShow = row => {
+  dialogTitle.value = '修改规格信息'
   productSpec.value = row
   dialogVisible.value = true
 }
@@ -137,7 +135,7 @@ const addShow = () => {
   productSpec.value = {
     id: '',
     specName: '',
-    specValue: []
+    specValue: [],
   }
 }
 
@@ -147,24 +145,21 @@ const addSpec = () => {
 }
 
 // 页面删除规格元素
-const delSpec = (index) => {
+const delSpec = index => {
   productSpec.value.specValue.splice(index, 1)
 }
 
 // 提交表单
 const saveOrUpdate = async () => {
-
   if (!productSpec.value.id) {
     await saveData()
   } else {
     await updateData()
   }
-
 }
 
 // 保存修改
 const updateData = async () => {
-
   // 需要将productSpec.value.specValue转换成json字符串提交到后端，通过clone一个新的对象进行实现
   const productSpecClone = JSON.parse(JSON.stringify(productSpec.value))
 
@@ -172,8 +167,9 @@ const updateData = async () => {
   // v-model绑定的数据模型为字符串
   productSpecClone.specValue.forEach(item => {
     console.log(typeof item.valueList)
-    if (typeof item.valueList === 'string') {   // 针对规格数据修改完毕以后数据类型有可能会变成string，针对string类型的数据将其转换成数组
-      item.valueList = item.valueList.split(",")
+    if (typeof item.valueList === 'string') {
+      // 针对规格数据修改完毕以后数据类型有可能会变成string，针对string类型的数据将其转换成数组
+      item.valueList = item.valueList.split(',')
     }
   })
   productSpecClone.specValue = JSON.stringify(productSpecClone.specValue)
@@ -188,18 +184,17 @@ const updateData = async () => {
 
 // 保存数据
 const saveData = async () => {
-
   // 需要将productSpec.value.specValue转换成json字符串提交到后端，通过clone一个新的对象进行实现
   const productSpecClone = JSON.parse(JSON.stringify(productSpec.value))
 
   // 将productSpecClone.specValue.valueList转换成数组，因为后端需要的数组格式的数据[{"key":"内存","valueList":["8G","18G","32G"]}]
   // v-model绑定的数据模型为字符串
   productSpecClone.specValue.forEach(item => {
-    item.valueList = item.valueList.split(",")
+    item.valueList = item.valueList.split(',')
   })
   productSpecClone.specValue = JSON.stringify(productSpecClone.specValue)
 
-  console.log(productSpecClone);
+  console.log(productSpecClone)
 
   // 提交表单
   await saveProductSpec(productSpecClone)
@@ -219,14 +214,14 @@ const remove = async id => {
     cancelButtonText: '取消',
     type: 'warning',
   })
-      .then(async () => {
-        await removeProductSpec(ids.value)
-        ElMessage.success('删除成功')
-        await fetchData()
-      })
-      .catch(() => {
-        ElMessage.info('取消删除')
-      })
+    .then(async () => {
+      await removeProductSpec(ids.value)
+      ElMessage.success('删除成功')
+      await fetchData()
+    })
+    .catch(() => {
+      ElMessage.info('取消删除')
+    })
 }
 
 // 钩子函数
@@ -246,10 +241,13 @@ const handleCurrentChange = number => {
 
 // 分页查询
 const fetchData = async () => {
-  const {data} = await listProductSpecPage(pageParams.value.current, pageParams.value.pageSize)
+  const { data } = await listProductSpecPage(
+    pageParams.value.current,
+    pageParams.value.pageSize
+  )
   data.list.forEach(item => {
-    item.specValue = JSON.parse(item.specValue)       // 将规格字符串转换成规格js对象
-  });
+    item.specValue = JSON.parse(item.specValue) // 将规格字符串转换成规格js对象
+  })
   list.value = data.list
   total.value = data.total
 }
@@ -271,5 +269,4 @@ const fetchData = async () => {
   background-color: #33c79d;
   border-radius: 10px;
 }
-
 </style>

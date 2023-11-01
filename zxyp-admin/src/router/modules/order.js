@@ -1,38 +1,35 @@
-import Layout from "@/layout/index.vue";
-import orderInfo from "@/views/order/orderInfo.vue";
-import orderStatistics from "@/views/order/orderStatistics.vue";
+const Layout = () => import('@/layout/index.vue')
+const orderStatistics = () => import('@/views/order/orderStatistics.vue')
+const orderInfo = () => import('@/views/order/orderInfo.vue')
 
-// 导出该组件
-export default ([
-    {
-        path: "/order",
-        component: Layout,
-        name: 'order',
+export default [
+  {
+    path: '/order',
+    component: Layout,
+    name: 'order',
+    meta: {
+      title: 'menu.orderInfo',
+    },
+    icon: 'Operation',
+    children: [
+      {
+        path: '/orderStatistics',
+        name: 'orderStatistics',
+        component: orderStatistics,
         meta: {
-            title: 'menu.order',
+          title: 'menu.orderStatistics',
         },
-        icon: 'TrendCharts',
-        children: [
-            {
-                path: '/orderInfo',
-                name: 'orderInfo',
-                component: orderInfo,
-                meta: {
-                    title: 'menu.orderInfo',
-                },
-                icon: "MoreFilled",
-                hidden: false
-            },
-            {
-                path: '/orderStatistics',
-                name: 'orderStatistics',
-                component: orderStatistics,
-                meta: {
-                    title: 'menu.orderStatistics',
-                },
-                icon: "DataLine",
-                hidden: false
-            }
-        ]
-    }
-])
+        icon: 'DataLine',
+      },
+      {
+        path: '/orderInfo',
+        name: 'orderInfo',
+        component: orderInfo,
+        meta: {
+          title: 'menu.orderInfo',
+        },
+        icon: 'Operation',
+      },
+    ],
+  },
+]
