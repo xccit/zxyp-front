@@ -48,11 +48,11 @@
   <el-dropdown trigger="hover">
     <div class="userinfo">
       <template v-if="!userinfo">
-        <i class="el-icon-user"/>
+        <i class="el-icon-user" />
         admin
       </template>
       <template v-else>
-        <img class="avatar" :src="userinfo.avatar"/>
+        <img class="avatar" :src="userinfo.avatar" />
         {{ userinfo.name }}
       </template>
     </div>
@@ -60,7 +60,7 @@
       <el-dropdown-menu>
         <el-dropdown-item>{{ $t('topbar.center') }}</el-dropdown-item>
         <el-dropdown-item>{{ $t('topbar.password') }}</el-dropdown-item>
-        <lock-modal/>
+        <lock-modal />
         <el-dropdown-item @click="logout">
           {{ $t('topbar.logout') }}
         </el-dropdown-item>
@@ -70,12 +70,12 @@
 </template>
 
 <script>
-import {useRouter} from 'vue-router'
-import {useUserinfo} from '@/components/Avatar/hooks/useUserinfo'
+import { useRouter } from 'vue-router'
+import { useUserinfo } from '@/components/Avatar/hooks/useUserinfo'
 import LockModal from './LockModal.vue'
-import {useApp} from '@/pinia/modules/app'
-import {defineComponent, getCurrentInstance} from 'vue'
-import {Logout} from '@/api/login'
+import { useApp } from '@/pinia/modules/app'
+import { defineComponent, getCurrentInstance } from 'vue'
+import { Logout } from '@/api/login'
 
 export default defineComponent({
   components: {
@@ -83,11 +83,11 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
-    const {userinfo} = useUserinfo()
-    const {proxy: ctx} = getCurrentInstance() // 可以把ctx当成vue2中的this
+    const { userinfo } = useUserinfo()
+    const { proxy: ctx } = getCurrentInstance() // 可以把ctx当成vue2中的this
     // 退出
     const logout = async () => {
-      const {code, data, message} = await Logout();
+      const { code, data, message } = await Logout()
       if (code == 200) {
         // 清除token
         useApp().clearToken()
@@ -96,7 +96,6 @@ export default defineComponent({
       } else {
         ctx.$message.error(message)
       }
-
     }
     return {
       userinfo,

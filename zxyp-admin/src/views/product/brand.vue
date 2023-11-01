@@ -4,22 +4,26 @@
   </div>
 
   <!--添加弹窗-->
-  <el-dialog v-model="dialogVisible" :title="brand.id == null ? '添加品牌' : '修改品牌'" width="30%">
+  <el-dialog
+    v-model="dialogVisible"
+    :title="brand.id == null ? '添加品牌' : '修改品牌'"
+    width="30%"
+  >
     <el-form label-width="120px">
       <el-form-item label="品牌名称">
-        <el-input v-model="brand.name"/>
+        <el-input v-model="brand.name" />
       </el-form-item>
       <el-form-item label="品牌图标">
         <el-upload
-            class="avatar-uploader"
-            action="http://localhost:8081/admin/system/upload"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :headers="headers"
+          class="avatar-uploader"
+          action="http://localhost:8081/admin/system/upload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :headers="headers"
         >
-          <img v-if="brand.logo" :src="brand.logo" class="avatar"/>
+          <img v-if="brand.logo" :src="brand.logo" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
-            <Plus/>
+            <Plus />
           </el-icon>
         </el-upload>
       </el-form-item>
@@ -31,13 +35,19 @@
   </el-dialog>
 
   <el-table :data="list" style="width: 100%" border stripe>
-    <el-table-column prop="id" width="120" label="品牌编号" align="center"/>
-    <el-table-column prop="name" width="120" label="品牌名称" align="center"/>
-    <el-table-column prop="logo" label="品牌图标" align="center" width="180" #default="scope">
-      <img :src="scope.row.logo" width="50"/>
+    <el-table-column prop="id" width="120" label="品牌编号" align="center" />
+    <el-table-column prop="name" width="120" label="品牌名称" align="center" />
+    <el-table-column
+      prop="logo"
+      label="品牌图标"
+      align="center"
+      width="180"
+      #default="scope"
+    >
+      <img :src="scope.row.logo" width="50" />
     </el-table-column>
-    <el-table-column prop="createTime" align="center" label="创建时间"/>
-    <el-table-column prop="updateTime" align="center" label="更新时间"/>
+    <el-table-column prop="createTime" align="center" label="创建时间" />
+    <el-table-column prop="updateTime" align="center" label="更新时间" />
     <el-table-column label="操作" align="center" width="200" #default="scope">
       <el-button type="primary" size="default" @click="editShow(scope.row)">
         修改
@@ -49,27 +59,30 @@
   </el-table>
 
   <el-pagination
-      v-model:current-page="pageParams.current"
-      v-model:page-size="pageParams.pageSize"
-      :page-sizes="[10, 20, 50, 100]"
-      layout="total, sizes, prev, pager, next"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+    v-model:current-page="pageParams.current"
+    v-model:page-size="pageParams.pageSize"
+    :page-sizes="[10, 20, 50, 100]"
+    layout="total, sizes, prev, pager, next"
+    :total="total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
   />
-
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue'
-import {updateBrand, removeBrand, listBrand, saveBrand} from "@/api/product/brand";
-import {ElMessage, ElMessageBox} from 'element-plus'
-import {useApp} from '@/pinia/modules/app'
-
+import { ref, onMounted } from 'vue'
+import {
+  updateBrand,
+  removeBrand,
+  listBrand,
+  saveBrand,
+} from '@/api/product/brand'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { useApp } from '@/pinia/modules/app'
 
 //删除
 let ids = ref([])
-const removeData = async (id) => {
+const removeData = async id => {
   ids.value = []
   ids.value.push(id)
   ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
@@ -77,30 +90,31 @@ const removeData = async (id) => {
     cancelButtonText: '取消',
     type: 'warning',
   })
-      .then(async () => {
-        const {code} = await removeBrand(ids.value)
-        if (code === 200) {
-          ElMessage.success('删除成功')
-          await fetchData()
-        } else {
-          ElMessage.error('删除失败')
-        }
-      }).catch(() => {
-    ElMessage.info('取消删除')
-    ids.value = []
-  })
+    .then(async () => {
+      const { code } = await removeBrand(ids.value)
+      if (code === 200) {
+        ElMessage.success('删除成功')
+        await fetchData()
+      } else {
+        ElMessage.error('删除失败')
+      }
+    })
+    .catch(() => {
+      ElMessage.info('取消删除')
+      ids.value = []
+    })
 }
 
 //修改&添加
 const headers = {
   // 从pinia中获取token，在进行文件上传的时候将token设置到请求头中
-  token: useApp().authorization.token
+  token: useApp().authorization.token,
 }
 // 定义提交表单数据模型
 const defaultForm = {
   id: '',
   name: '',
-  logo: ""
+  logo: '',
 }
 const brand = ref(defaultForm)
 const dialogVisible = ref(false)
@@ -112,14 +126,14 @@ const addShow = () => {
 }
 
 //进入修改
-const editShow = (row) => {
+const editShow = row => {
   brand.value = row
   dialogVisible.value = true
 }
 
 // 修改
 const updateData = async () => {
-  const {code, message} = await updateBrand(brand.value)
+  const { code, message } = await updateBrand(brand.value)
   if (code === 200) {
     dialogVisible.value = false
     ElMessage.success(message)
@@ -130,7 +144,7 @@ const updateData = async () => {
 }
 
 //上传
-const handleAvatarSuccess = (response) => {
+const handleAvatarSuccess = response => {
   brand.value.logo = response.data
 }
 
@@ -181,7 +195,10 @@ const handleCurrentChange = number => {
 
 // 分页查询
 const fetchData = async () => {
-  const {code, message, data} = await listBrand(pageParams.value.current, pageParams.value.pageSize)
+  const { code, message, data } = await listBrand(
+    pageParams.value.current,
+    pageParams.value.pageSize
+  )
   list.value = data.list
   total.value = data.total
 }

@@ -6,13 +6,13 @@
   <el-dialog v-model="dialogVisible" :title="dialogTitle" width="30%">
     <el-form label-width="120px">
       <el-form-item label="菜单标题">
-        <el-input v-model="sysMenu.title"/>
+        <el-input v-model="sysMenu.title" />
       </el-form-item>
       <el-form-item label="路由名称">
-        <el-input v-model="sysMenu.component"/>
+        <el-input v-model="sysMenu.component" />
       </el-form-item>
-      <el-form-item label="排序" >
-        <el-input v-model="sysMenu.sortValue"/>
+      <el-form-item label="排序">
+        <el-input v-model="sysMenu.sortValue" />
       </el-form-item>
       <el-form-item label="状态">
         <el-radio-group v-model="sysMenu.status">
@@ -27,17 +27,23 @@
     </el-form>
   </el-dialog>
   <el-table
-      :data="list"
-      style="width: 100%; margin-bottom: 20px"
-      row-key="id"
-      border
-      default-expand-all
+    :data="list"
+    style="width: 100%; margin-bottom: 20px"
+    row-key="id"
+    border
+    default-expand-all
   >
     <el-table-column prop="title" label="菜单标题" align="center" />
     <el-table-column prop="component" label="路由名称" align="center" />
     <el-table-column prop="sortValue" width="80" label="排序" align="center" />
-    <el-table-column prop="status" label="状态" width="120" align="center"  #default="scope">
-      <el-tag :type="scope.row.status == 1 ? 'success' : 'error' ">
+    <el-table-column
+      prop="status"
+      label="状态"
+      width="120"
+      align="center"
+      #default="scope"
+    >
+      <el-tag :type="scope.row.status == 1 ? 'success' : 'error'">
         {{ scope.row.status == 1 ? '正常' : '未开发/禁用' }}
       </el-tag>
     </el-table-column>
@@ -58,8 +64,8 @@
 
 <script setup>
 //引入调用的方法
-import { ref , onMounted } from "vue"
-import { listNodes , save , update ,remove } from '@/api/system/menu'
+import { ref, onMounted } from 'vue'
+import { listNodes, save, update, remove } from '@/api/system/menu'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 // 定义表格数据模型
@@ -90,12 +96,12 @@ onMounted(() => {
 
 //=======================添加和修改功能====================
 //进入添加
-const addShow = (row) => {
+const addShow = row => {
   sysMenu.value = {}
   dialogVisible.value = true
-  if(!row.id) {
+  if (!row.id) {
     dialogTitle.value = '添加'
-  }else {
+  } else {
     dialogTitle.value = '添加下级节点'
     sysMenu.value.parentId = row.id
   }
@@ -110,11 +116,11 @@ const editShow = row => {
 //提交保存与修改
 const saveOrUpdate = () => {
   if (!sysMenu.value.id) {
-    if(!sysMenu.value.parentId) {
+    if (!sysMenu.value.parentId) {
       sysMenu.value.parentId = 0
     }
     saveData()
-  }  else {
+  } else {
     updateData()
   }
 }
@@ -129,11 +135,11 @@ const updateData = async () => {
 
 // 新增
 const saveData = async () => {
-  const {code,message} = await save(sysMenu.value)
+  const { code, message } = await save(sysMenu.value)
   dialogVisible.value = false
-  if (code === 200){
+  if (code === 200) {
     ElMessage.success('操作成功')
-  }else{
+  } else {
     ElMessage.error(message)
   }
   await fetchData()
@@ -146,17 +152,17 @@ const fetchData = async () => {
 }
 
 //=======================删除功能====================
-const removeMenu = async (id) => {
+const removeMenu = async id => {
   ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   }).then(async () => {
-    const { code , message } = await remove(id)
-    if(code === 200) {
+    const { code, message } = await remove(id)
+    if (code === 200) {
       ElMessage.success('删除成功')
       await fetchData()
-    }else {
+    } else {
       ElMessage.error(message)
     }
   })

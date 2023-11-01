@@ -30,57 +30,57 @@
  */
 
 import axios from 'axios'
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 import router from '@/router'
-import {useApp} from '@/pinia/modules/app'
+import { useApp } from '@/pinia/modules/app'
 
 const service = axios.create({
-    baseURL: 'http://localhost:8081',
-    timeout: 10000,
-    withCredentials: true,
+  baseURL: 'http://localhost:8081',
+  timeout: 10000,
+  withCredentials: true,
 })
 
 // 拦截请求
 service.interceptors.request.use(
-    config => {
-        const {authorization} = useApp()
-        if (authorization) {
-            //将token放到请求头
-            /*config.headers.Authorization = `Bearer ${authorization.token}`*/
-            config.headers.token = `${authorization.token}`
-        }
-        return config
-    },
-    error => {
-        // console.log(error);
-        return Promise.reject(error)
+  config => {
+    const { authorization } = useApp()
+    if (authorization) {
+      //将token放到请求头
+      /*config.headers.Authorization = `Bearer ${authorization.token}`*/
+      config.headers.token = `${authorization.token}`
     }
+    return config
+  },
+  error => {
+    // console.log(error);
+    return Promise.reject(error)
+  }
 )
 
 // 拦截响应
 service.interceptors.response.use(
-// 响应成功进入第1个函数，该函数的参数是响应对象
-response => {
+  // 响应成功进入第1个函数，该函数的参数是响应对象
+  response => {
     const res = response.data
     if (res.code == 208) {
-        const redirect = encodeURIComponent(window.location.href)  // 当前地址栏的url
-        ElMessage.error("登录已过期,请重新登录")
-        router.push(`/login?redirect=${redirect}`)
-        return Promise.reject(new Error(res.message || 'Error'))
+      const redirect = encodeURIComponent(window.location.href) // 当前地址栏的url
+      ElMessage.error('登录已过期,请重新登录')
+      router.push(`/login?redirect=${redirect}`)
+      return Promise.reject(new Error(res.message || 'Error'))
     }
     return res
-},
-    // 响应失败进入第2个函数，该函数的参数是错误对象
-    async error => {
-        const {authorization} = useApp()
-        const res = error.data
-        if (res.code != 200) {
-            authorization.actions.clearToken
-            ElMessage.error(res.message)
-            const redirect = encodeURIComponent(window.location.href)
-            router.push(`/login?redirect=${redirect}`)
-        }
+  },
+  // 响应失败进入第2个函数，该函数的参数是错误对象
+  async error => {
+    const { authorization } = useApp()
+    const res = error.data
+    if (res.code != 200) {
+      authorization.actions.clearToken
+      ElMessage.error(res.message)
+      const redirect = encodeURIComponent(window.location.href)
+      router.push(`/login?redirect=${redirect}`)
     }
+  }
 )
 
 export default service

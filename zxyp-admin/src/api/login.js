@@ -22,10 +22,10 @@ export const Login = data => {
   })
 }
 
-export const GetValidateCode = ()=>{
+export const GetValidateCode = () => {
   return request({
     url: `${baseUrl}/generateValidateCode`,
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -41,6 +41,6 @@ export const GetUserinfo = () => {
 export const Logout = () => {
   return request({
     url: `${baseUrl}/logout`,
-    method: 'get'
+    method: 'get',
   })
 }

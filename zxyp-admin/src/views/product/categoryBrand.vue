@@ -5,17 +5,17 @@
         <el-col :span="6">
           <el-form-item label="品牌:">
             <el-select
-                class="m-2"
-                placeholder="选择品牌"
-                size="default"
-                style="width: 100%"
-                v-model="queryDto.brandId"
+              class="m-2"
+              placeholder="选择品牌"
+              size="default"
+              style="width: 100%"
+              v-model="queryDto.brandId"
             >
               <el-option
-                  v-for="item in brandList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
+                v-for="item in brandList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               />
             </el-select>
           </el-form-item>
@@ -23,9 +23,9 @@
         <el-col :span="6">
           <el-form-item label="分类:">
             <el-cascader
-                :props="categoryProps"
-                style="width: 100%"
-                v-model="searchCategoryIdList"
+              :props="categoryProps"
+              style="width: 100%"
+              v-model="searchCategoryIdList"
             />
           </el-form-item>
         </el-col>
@@ -43,48 +43,59 @@
     <el-button type="success" size="default" @click="addShow">添 加</el-button>
   </div>
   <!--弹窗-->
-  <el-dialog v-model="dialogVisible" :title="categoryBrand.id == null ? '添加数据' : '修改数据'" width="30%">
+  <el-dialog
+    v-model="dialogVisible"
+    :title="categoryBrand.id == null ? '添加数据' : '修改数据'"
+    width="30%"
+  >
     <el-form label-width="120px">
       <el-form-item label="品牌:">
         <el-select
-            class="m-2"
-            placeholder="选择品牌"
-            size="default"
-            v-model="categoryBrand.brandId"
+          class="m-2"
+          placeholder="选择品牌"
+          size="default"
+          v-model="categoryBrand.brandId"
         >
           <el-option
-              v-for="item in brandList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
+            v-for="item in brandList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="分类:">
         <el-cascader
-            :props="categoryProps"
-            v-model="categoryBrand.categoryId"
+          :props="categoryProps"
+          v-model="categoryBrand.categoryId"
         />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="saveOrUpdate">提交</el-button>
-        <el-button @click="dialogVisible = false;ElMessage.warning('取消操作')">取消</el-button>
+        <el-button
+          @click="
+            dialogVisible = false
+            ElMessage.warning('取消操作')
+          "
+        >
+          取消
+        </el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
 
   <div>
     <el-table :data="list" style="width: 100%">
-      <el-table-column prop="categoryName" label="分类"/>
+      <el-table-column prop="categoryName" label="分类" />
       <el-table-column prop="categoryImage" label="分类图标" #default="scope">
-        <img :src="scope.row.categoryImage" width="50"/>
+        <img :src="scope.row.categoryImage" width="50" />
       </el-table-column>
-      <el-table-column prop="brandName" label="品牌"/>
+      <el-table-column prop="brandName" label="品牌" />
       <el-table-column prop="logo" label="品牌图标" #default="scope">
-        <img :src="scope.row.logo" width="50"/>
+        <img :src="scope.row.logo" width="50" />
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间"/>
-      <el-table-column prop="updateTime" label="更新时间"/>
+      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="updateTime" label="更新时间" />
       <el-table-column label="操作" align="center" width="200" #default="scope">
         <el-button type="primary" size="default" @click="editShow(scope.row)">
           修改
@@ -96,28 +107,28 @@
     </el-table>
 
     <el-pagination
-        v-model:current-page="pageParams.page"
-        v-model:page-size="pageParams.limit"
-        :page-sizes="[10, 20, 50, 100]"
-        layout="total, sizes, prev, pager, next"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+      v-model:current-page="pageParams.page"
+      v-model:page-size="pageParams.limit"
+      :page-sizes="[10, 20, 50, 100]"
+      layout="total, sizes, prev, pager, next"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
     />
   </div>
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue'
-import {brandLists} from "@/api/product/brand";
+import { onMounted, ref } from 'vue'
+import { brandLists } from '@/api/product/brand'
 import {
   listCategoryBrand,
   saveCategoryBrand,
   updateCategoryBrand,
-  removeCategoryBrand
-} from "@/api/product/categoryBrand";
-import {listCategoryByParentID} from "@/api/product/category";
-import {ElMessage, ElMessageBox} from "element-plus";
+  removeCategoryBrand,
+} from '@/api/product/categoryBrand'
+import { listCategoryByParentID } from '@/api/product/category'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 // ================数据模型定义  start ===============================================
 const props = {
@@ -125,22 +136,24 @@ const props = {
   value: 'id',
   label: 'name',
   leaf: 'leaf',
-  async lazyLoad(node, resolve) {   // 加载数据的方法
+  async lazyLoad(node, resolve) {
+    // 加载数据的方法
     if (typeof node.value == 'undefined') node.value = 0
-    const {data} = await listCategoryByParentID(node.value)
-    data.forEach(function (item) {       //hasChildren判断是否有子节点
+    const { data } = await listCategoryByParentID(node.value)
+    data.forEach(function(item) {
+      //hasChildren判断是否有子节点
       item.leaf = !item.hasChildren
     })
-    resolve(data)  // 返回数据
-  }
-};
+    resolve(data) // 返回数据
+  },
+}
 
 /**
  * 删除功能,由于单删跟批量删除接口使用的是同一个,需要传入id集合
  * @type {Ref<UnwrapRef<*[]>>}
  */
 let ids = ref([])
-const remove = async (id) => {
+const remove = async id => {
   ids.value = [] //清空
   ids.value.push(id) //添加
   ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
@@ -148,19 +161,19 @@ const remove = async (id) => {
     cancelButtonText: '取消',
     type: 'warning',
   })
-      .then(async () => {
-        const {code, message} = await removeCategoryBrand(ids.value)
-        if (code === 200) {
-          ElMessage.success(message)
-          await fetchData()
-        }else{
-          ElMessage.error('操作失败')
-          return
-        }
-      })
-      .catch(() => {
-        ElMessage.warning('取消删除')
-      })
+    .then(async () => {
+      const { code, message } = await removeCategoryBrand(ids.value)
+      if (code === 200) {
+        ElMessage.success(message)
+        await fetchData()
+      } else {
+        ElMessage.error('操作失败')
+        return
+      }
+    })
+    .catch(() => {
+      ElMessage.warning('取消删除')
+    })
 }
 
 //修改
@@ -175,10 +188,10 @@ const updateData = async () => {
   await fetchData()
 }
 
-
 //添加
 const dialogVisible = ref(false)
-const defaultForm = {       //页面表单数据
+const defaultForm = {
+  //页面表单数据
   id: '',
   brandId: '',
   categoryId: '',
@@ -221,7 +234,7 @@ const categoryProps = ref(props)
 
 //查询所有品牌
 const selectAllBrandList = async () => {
-  const {data} = await brandLists()
+  const { data } = await brandLists()
   brandList.value = data
 }
 
@@ -232,11 +245,11 @@ const list = ref([])
 // 分页条数据模型
 const total = ref(0)
 // 搜索表单数据模型
-const queryDto = ref({brandId: '', categoryId: ''})
+const queryDto = ref({ brandId: '', categoryId: '' })
 const searchCategoryIdList = ref([])
 //分页条数据模型
 const pageParamsForm = {
-  current: 1,   // 页码
+  current: 1, // 页码
   pageSize: 10, // 每页记录数
 }
 const pageParams = ref(pageParamsForm)
@@ -249,7 +262,7 @@ onMounted(() => {
 
 //重置
 const resetData = () => {
-  queryDto.value = {brandId: '', categoryId: ''}
+  queryDto.value = { brandId: '', categoryId: '' }
   searchCategoryIdList.value = []
   fetchData()
 }
@@ -269,7 +282,11 @@ const fetchData = async () => {
   if (searchCategoryIdList.value.length == 3) {
     queryDto.value.categoryId = searchCategoryIdList.value[2]
   }
-  const {data} = await listCategoryBrand(pageParams.value.current, pageParams.value.pageSize, queryDto.value)
+  const { data } = await listCategoryBrand(
+    pageParams.value.current,
+    pageParams.value.pageSize,
+    queryDto.value
+  )
   list.value = data.list
   total.value = data.total
 }

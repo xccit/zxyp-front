@@ -1,27 +1,31 @@
 <template>
-  <div v-loading="loading" :style="'height:'+ height">
-    <iframe :src="src" frameborder="no" style="width: 100%;height: 100%" scrolling="auto" />
+  <div v-loading="loading" :style="'height:' + height">
+    <iframe
+      :src="src"
+      frameborder="no"
+      style="width: 100%;height: 100%"
+      scrolling="auto"
+    />
   </div>
 </template>
 <script>
-
 export default {
-  name: "Minio",
+  name: 'Minio',
   data() {
     return {
       src: 'http://localhost:8081/admin/system/minio',
-      height: document.documentElement.clientHeight - 94.5 + "px;",
-      loading: true
-    };
+      height: document.documentElement.clientHeight - 94.5 + 'px;',
+      loading: true,
+    }
   },
   mounted: function() {
     setTimeout(() => {
-      this.loading = false;
-    }, 230);
-    const that = this;
+      this.loading = false
+    }, 230)
+    const that = this
     window.onresize = function temp() {
-      that.height = document.documentElement.clientHeight - 94.5 + "px;";
-    };
-  }
-};
+      that.height = document.documentElement.clientHeight - 94.5 + 'px;'
+    }
+  },
+}
 </script>
