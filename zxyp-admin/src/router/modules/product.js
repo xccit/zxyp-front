@@ -1,4 +1,3 @@
-// 导出该组件
 import Layout from '@/layout/index.vue'
 import category from '@/views/product/category.vue'
 import brand from '@/views/product/brand.vue'

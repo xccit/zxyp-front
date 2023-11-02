@@ -17,6 +17,8 @@ export default {
   brand: '品牌管理',
   categoryBrand: '品牌分类',
   productSpec: '商品规格',
+  log: '日志管理',
+  operLog: '操作日志',
   test: '测试页面',
   testList: '列表',
   testAdd: '添加',

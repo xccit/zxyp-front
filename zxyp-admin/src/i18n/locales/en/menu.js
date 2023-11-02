@@ -13,6 +13,8 @@ export default {
   orderInfo: 'Order Info',
   orderStatistics: 'Order Statistics',
   product: 'Product MSI',
+  log: 'Log MSI',
+  operLog: 'Operator Log',
   tools: 'System Tools',
   category: 'Category MSI',
   brand: 'Brand MSI',
