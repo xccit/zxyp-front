@@ -1,23 +1,50 @@
 <template>
   <!---数据表格-->
   <el-table :data="logList" style="width: 100%" stripe border>
-    <el-table-column prop="title" label="模块标题" />
-    <el-table-column prop="method" label="方法名称" />
-    <el-table-column prop="requestMethod" label="请求方式" />
-    <el-table-column prop="operName" label="操作人员" />
-    <el-table-column prop="operUrl" label="请求URL" />
-    <el-table-column prop="operIp" label="请求IP" />
-    <el-table-column prop="status" label="请求状态" #default="scope">
+    <el-table-column prop="title" label="模块标题" align="center" />
+    <el-table-column prop="method" label="方法名称" align="center" />
+    <el-table-column prop="requestMethod" label="请求方式" align="center" />
+    <el-table-column prop="operName" label="操作人员" align="center" />
+    <el-table-column prop="operUrl" label="请求URL" align="center" />
+    <el-table-column prop="operIp" label="请求IP" align="center" />
+    <el-table-column
+      prop="createTime"
+      label="请求时间"
+      align="center"
+      #default="scope"
+    >
+      <el-icon><Clock /></el-icon>
+      {{ scope.row.createTime }}
+    </el-table-column>
+    <el-table-column
+      prop="status"
+      label="请求状态"
+      align="center"
+      #default="scope"
+    >
       <el-tag :type="scope.row.status === 0 ? 'success' : 'warning'">
         {{ scope.row.status == 0 ? '成功' : '失败' }}
       </el-tag>
     </el-table-column>
-    <el-table-column prop="errorMsg" label="异常信息" #default="scope">
-      {{
-        scope.row.errorMsg == null || scope.row.errorMsg == ''
-          ? '无异常'
-          : scope.row.errorMsg
-      }}
+    <el-table-column
+      prop="errorMsg"
+      label="异常信息"
+      align="center"
+      #default="scope"
+    >
+      <el-tag
+        :type="
+          scope.row.errorMsg == null || scope.row.errorMsg == ''
+            ? 'success'
+            : 'danger'
+        "
+      >
+        {{
+          scope.row.errorMsg == null || scope.row.errorMsg == ''
+            ? '无异常'
+            : scope.row.errorMsg
+        }}
+      </el-tag>
     </el-table-column>
   </el-table>
 
